@@ -1,5 +1,5 @@
 // ==================== CONFIG ====================
-const API_KEY = "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";
+const API_KEY = "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";
 const MODEL   = "google/gemini-2.5-flash";
 
 // ==================== DOM ====================
@@ -287,8 +287,18 @@ async function sendMessage() {
       })
     });
 
-    if (!resp.ok) throw new Error("API error " + resp.status);
+    if (!resp.ok) {
+      const errorText = await resp.text();
+      console.error("API Error:", resp.status, errorText);
+      throw new Error(`Server returned ${resp.status}: ${errorText}`);
+    }
+    
     const data  = await resp.json();
+    
+    if (!data.choices || !data.choices[0]) {
+      throw new Error("Invalid response format from API");
+    }
+    
     const reply = data.choices[0].message.content;
 
     removeThinking();
@@ -296,8 +306,21 @@ async function sendMessage() {
 
   } catch (err) {
     removeThinking();
-    appendBubble("bot", "⚠️ Sorry, I couldn't reach the server. Please try again.");
-    console.error(err);
+    // Show more helpful error message
+    let errorMsg = "⚠️ Sorry, I couldn't reach the server. Please try again.";
+    
+    if (err.message.includes("401") || err.message.includes("403")) {
+      errorMsg = "⚠️ Invalid API key. Please check your OpenRouter API key in script.js";
+    } else if (err.message.includes("429")) {
+      errorMsg = "⚠️ Too many requests. Please wait a moment and try again.";
+    } else if (err.message.includes("500") || err.message.includes("502")) {
+      errorMsg = "⚠️ Server error. The API service is temporarily unavailable.";
+    } else if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+      errorMsg = "⚠️ Network error. Check your internet connection.";
+    }
+    
+    appendBubble("bot", errorMsg);
+    console.error("Chat error:", err);
   }
 
   isLoading = false;
