@@ -1,5 +1,5 @@
 // ==================== CONFIG ====================
-const API_KEY = "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";
+const API_KEY = "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";
 const MODEL   = "google/gemini-2.5-flash";
 
 // ==================== DOM ====================
