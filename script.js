@@ -1,6 +1,6 @@
 // ==================== CONFIG ====================
-const API_KEY = "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";
-const MODEL   = "google/gemini-2.5-flash";
+const API_KEY = "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";
+const MODEL   = "google/gemini-3-flash-preview";
 
 // ==================== DOM ====================
 const chatBox   = document.getElementById("chat-box");
