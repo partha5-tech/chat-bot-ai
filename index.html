@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini AI Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inconsolata:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-canvas">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="app-layout">
+
+    <!-- Sidebar History -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">✦ GEM</div>
+        <button class="new-chat-btn" onclick="newChat()">+ New</button>
+      </div>
+      <div class="history-label">RECENT CHATS</div>
+      <div class="history-list" id="history-list">
+        <!-- Sessions rendered here -->
+      </div>
+      <div class="sidebar-footer">
+        <span class="model-badge">gemini-2.5-flash</span>
+      </div>
+    </aside>
+
+    <!-- Main Chat -->
+    <main class="chat-main">
+
+      <!-- Header -->
+      <div class="chat-header">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle History">☰</button>
+        <div class="header-center">
+          <span class="header-title">Gemini AI</span>
+          <span class="status-pill"><span class="pulse"></span>LIVE</span>
+        </div>
+        <button class="clear-btn" onclick="clearCurrentChat()" title="Clear Chat">⟳</button>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chat-box"></div>
+
+      <!-- Input -->
+      <div class="input-area">
+        <div class="input-shell">
+          <textarea
+            id="user-input"
+            placeholder="Message Gemini…"
+            rows="1"
+            maxlength="2000"
+            oninput="autoResize(this); updateCharCount(this)"
+            onkeydown="handleKey(event)"
+          ></textarea>
+          <div class="input-footer">
+            <span class="char-count" id="char-count">0 / 2000</span>
+            <span class="hint">⏎ send &nbsp;·&nbsp; ⇧⏎ newline</span>
+          </div>
+        </div>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
